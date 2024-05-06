@@ -38,7 +38,7 @@ static IResult CreateChair(DataContext db)
     }
     db.Chairs.Add(chair);
     db.SaveChanges();
-    return Results.Created($"/api/chair/{chair.Name}", chair);
+    return Results.Created("/api/chair/{chair.Name}", chair);
 }
 static IResult GetChairByName(DataContext db)
 {
@@ -71,10 +71,21 @@ static IResult GetChairByName(DataContext db)
 static IResult UpdateChair(DataContext db)
 {
     var existingChair = db.Chairs.Find(id);
-    if (existingChair == null){
+    if (existingChair == null)
+    {
         return Results.NotFound($"No se encontró la silla con el ID '{id}'.");
     }
-    existingChair = updatedChair;
+
+    existingChair.Nombre = updatedChair.Nombre;
+    existingChair.Tipo = updatedChair.Tipo;
+    existingChair.Material = updatedChair.Material;
+    existingChair.Color = updatedChair.Color;
+    existingChair.Altura = updatedChair.Altura;
+    existingChair.Anchura = updatedChair.Anchura;
+    existingChair.Profundidad = updatedChair.Profundidad;
+    existingChair.Precio = updatedChair.Precio;
+    existingChair.Stock = updatedChair.Stock;
+
     db.SaveChanges();
     return Results.Ok(existingChair);
 }
